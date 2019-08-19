@@ -10,7 +10,7 @@ GAME FUNCTION:
 // Game values
 let min = 1,
     max = 10,
-    successfulNumber = 2,
+    successfulNumber = getIrregularNumber(min, max),
     estimatedLeft = 3;
 
 // UI Elements
@@ -25,6 +25,12 @@ const UIgame = document.querySelector('#game'),
 minNumber.textContent = min;
 maxNumber.textContent = max;
 
+// Play againe event listener
+UIgame.addEventListener('mousedown', function(e){
+    if(e.target.className === 'play-againe'){
+        window.location.reload();
+    }
+})
 // Listen for estimate(guess)
 
 estimateBtn.addEventListener('click', function() {
@@ -84,6 +90,15 @@ function gameOver(won, msg){
     notice.style.color = color;
     // Set message
     setNotice(msg);
+
+    // Play againe
+    estimateBtn.value = 'Play Againe';
+    estimateBtn.className += 'play-againe';
+}
+
+// get winning Number
+function getIrregularNumber(min, max){
+    return Math.floor(Math.random()*(max-min+1)+min);
 }
 
 // Set notice(message)
