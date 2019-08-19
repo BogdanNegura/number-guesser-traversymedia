@@ -37,16 +37,54 @@ estimateBtn.addEventListener('click', function() {
 
     // Check if won
     if(estimate === successfulNumber){
-        // Disable input 
-        estimateInput.disable = true;
-        // Change border color to green
-        estimateInput.style.borderColor = 'green';
-        // Set message
-        setNotice(`${successfulNumber} is correct, YOU WIN!`, 'green');
-    } else {
+        // Game Over - won
+        gameOver(true, `${successfulNumber} is correct, You Win`);
 
+    } else {
+        // Wrong number
+        estimatedLeft -= 1;
+
+        if(estimatedLeft === 0){
+            // Game Over -lost
+            gameOver(false, `Game Over, you lost. The correct number was ${successfulNumber}`);
+            // Disable input 
+            estimateInput.disable = true;
+
+            // Change border color
+            estimateInput.style.borderColor = 'red';
+            
+            // Set message
+            setNotice(`Game Over, you lost. The correct number was ${successfulNumber}`, 'red');
+
+        } else{
+            // Game continue - answer wrong
+
+            // Change border color
+            estimateInput.style.borderColor = 'red';
+
+            // Clear the input
+            estimateInput.value = '';
+
+            // Tell user its the wrong number
+            setNotice(`${estimate} is not correct, ${estimatedLeft} guesses left`, 'red')
+        } 
     }
 });
+
+// Game over
+function gameOver(won, msg){
+    let color;
+    won === true ? color = 'green' : color = 'red';
+
+    // Disable input 
+    estimateInput.disable = true;
+    // Change border color to green
+    estimateInput.style.borderColor = color;
+    // Set text color
+    notice.style.color = color;
+    // Set message
+    setNotice(msg);
+}
 
 // Set notice(message)
 function setNotice(msg, color){
